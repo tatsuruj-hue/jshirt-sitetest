@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JSHIRT｜From Silence to Signal</title>
+  <meta name="description" content="JSHIRT｜裏路地×和風サイバー。From Silence to Signal。SUZURIで展開中。" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 切れかけ蛍光灯 -->
+  <div class="alley-lamp" aria-hidden="true"></div>
+
+  <header>
+    <h1 class="logo-text">JSHIRT</h1>
+
+    <div class="brand-copy">
+      <p class="jp">日常を“前進”させるためのブランド。<br>壊すためではなく、更新するためのスイッチ。</p>
+      <p class="en">From Silence to Signal.<br>A Japanese cyber brand for renewal, not destruction.</p>
+    </div>
+
+    <a class="link-button" href="https://suzuri.jp/TJcorporation" target="_blank" rel="noopener">Shop on SUZURI</a>
+    <button id="openContact" class="link-button">DESIGN REQUEST</button>
+    <div class="hashtags">#JSHIRT #FromSilenceToSignal #和風サイバー #TokyoDesign #CyberJapanese #GlitchArt #DigitalChaos</div>
+  </header>
+
+  <section class="gallery" aria-labelledby="gtitle">
+    <h2 id="gtitle"><span>REVEAL / SILENT / SHIFT / ECHO</span></h2>
+
+    <div class="scroll-container">
+      <article class="card">
+  <img src="REVEAL.png" alt="REVEAL メインビジュアル">
+  <div class="card-title">REVEAL</div>
+  <div class="concept">
+    光が漏れる。<br>人とデータの境界が揺らぐ瞬間。
+  </div>
+</article>
+      <article class="card">
+  <img src="SILENT.png" alt="SILENT メインビジュアル">
+  <div class="card-title">SILENT</div>
+  <div class="concept">
+    夢を見た機械が眠りにつく。<br>
+    静寂だけが残る。
+  </div>
+</article>
+      <article class="card">
+  <img src="SHIFT.png" alt="SHIFT メインビジュアル">
+  <div class="card-title">SHIFT_SERPENT／冷醒</div>
+  <div class="concept">
+    青白い蛇が闇を裂く。<br>
+    システムが冷たく覚醒する夜。
+  </div>
+</article> 
+<article class="card">
+  <img src="echo.png" alt="ECHO メインビジュアル" >
+  <div class="card-title">ECHO</div>
+  <div class="concept">
+    光が闇に咲く。<br>
+    ネオンの花びらが記憶のように滲む。
+  </div>
+</article>
+
+    </div>
+  </section>
+
+  <!-- 問い合わせモーダル -->
+  <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-label="Design Request Form">
+    <div class="modal-content">
+      <span id="closeModal" class="close" aria-label="閉じる">&times;</span>
+      <h2>DESIGN REQUEST</h2>
+      <form id="contactForm" action="https://formspree.io/f/mwpraloj" method="POST">
+        <input type="text" name="name" placeholder="お名前" required>
+        <input type="email" name="email" placeholder="メールアドレス" required>
+        <input type="text" name="sns" placeholder="SNSアカウント（任意）">
+        <textarea name="request" rows="5" placeholder="希望するデザインのイメージ・テーマなど" required></textarea>
+        <button type="submit">送信する</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="thankyou" class="thankyou">THANK YOU FOR YOUR MESSAGE</div>
+
+  <footer>© <span id="year"></span> TJcorporation / JSHIRT</footer>
+
+<div class="credit reveal" id="credit">
+  <p class="label">FROM SILENCE TO SIGNAL — 2025 COLLECTION</p>
+  <p class="by">Concept &amp; Design — <strong>TJcorporation / JSHIRT</strong></p>
+</div>
+
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const modal = document.getElementById("contactModal");
+    const btn = document.getElementById("openContact");
+    const span = document.getElementById("closeModal");
+    btn.onclick = () => { modal.style.display = "block"; };
+    span.onclick = () => { modal.style.display = "none"; };
+    window.onclick = (e) => { if(e.target == modal){ modal.style.display = "none"; } };
+    const form = document.getElementById("contactForm");
+    const thank = document.getElementById("thankyou");
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const data = new FormData(form);
+      fetch(form.action, { method:"POST", body:data, headers:{'Accept':'application/json'} })
+      .then(res=>{
+        if(res.ok){
+          modal.style.display="none";
+          thank.classList.add("show");
+          setTimeout(()=>{thank.classList.remove("show");},2400);
+          form.reset();
+        }else{
+          alert("送信に失敗しました。もう一度お試しください。");
+        }
+      })
+      .catch(()=>alert("送信に失敗しました。ネットワークを確認してください。"));
+    });
+  // ランダムに暗転（0.5〜0.9秒）を発生させる
+(function blackoutLooper(){
+  const next = 8000 + Math.random() * 10000;   // 8〜18秒のランダム間隔
+  setTimeout(()=>{
+    const dur = 800 + Math.random() * 700;     // 0.8〜1.5秒の暗転
+    document.body.classList.add('blackout');
+    setTimeout(()=>{
+      document.body.classList.remove('blackout');
+      blackoutLooper(); // 次の暗転を予約
+    }, dur);
+  }, next);
+})();
+</script>
+<script>
+// ===== ランダム・バースト（不規則な弾け） =====
+(function surgeLoop(){
+  // 次のバーストまでの待ち時間（ミリ秒）
+  const gap = 4000 + Math.random()*7000; // 4〜11秒おき
+  setTimeout(()=>{
+    const dur = 900; // バースト継続 0.9s（CSSと合わせる）
+    document.body.classList.add('surge');
+    setTimeout(()=>{
+      document.body.classList.remove('surge');
+      surgeLoop(); // 次回予約
+    }, dur);
+  }, gap);
+})();
+</script>
+
+<script>
+// クレジットをスクロールでふわっと出す
+(() => {
+  const el = document.getElementById('credit');
+  if(!('IntersectionObserver' in window) || !el) { el?.classList.add('show'); return; }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e => { if(e.isIntersecting){ el.classList.add('show'); io.disconnect(); }});
+  }, {threshold: .35});
+  io.observe(el);
+})();
+</script>
+
+
+</body>
+</html>

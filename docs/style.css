@@ -724,3 +724,87 @@ body.modal-open { overflow: hidden; }
     line-height: 38px;
   }
 }
+/* ===== 横スクロール根絶パッチ（スマホ優先だがPCにも安全） ===== */
+
+/* まず全体を安全化 */
+*,
+*::before,
+*::after{ box-sizing: border-box; }
+
+html, body{
+  overflow-x: hidden !important;   /* ← 最終ゲート */
+  width: 100%;
+}
+
+/* 画像・動画は親からはみ出さない */
+img, video{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 蛍光レイヤーのはみ出しを物理的にカット */
+.alley-lamp{
+  position: relative;
+  max-width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;                 /* ← ここが効く */
+}
+
+/* 光の広がりが画面外を押さないよう幅を制限（モバイルで強め） */
+@media (max-width: 768px){
+  .alley-lamp::after{
+    width: 140vw;                   /* 180% → 少し抑える */
+    max-width: 140vw;               /* 念のため */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* ギャラリーを縦積みにして横スクロールを禁止 */
+@media (max-width: 768px){
+  .scroll-container{
+    display: flex;
+    flex-wrap: wrap;                /* 横並び→縦積み */
+    overflow-x: hidden;
+    gap: 16px;
+    padding: 0 12px;
+    justify-content: center;
+  }
+  .card{
+    width: 86vw;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+}
+
+/* フォーム周りで横に広がりうる要素を抑える */
+.modal{
+  overflow-x: hidden;               /* モーダル自体の横は切る */
+}
+@media (max-width: 768px){
+  .modal-content{
+    width: 94vw;                    /* 100vwはスクロールバー分が乗る端末あり */
+    max-width: 94vw;                /* 二重保険 */
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
+  }
+  .close{
+    max-width: 100%;
+  }
+}
+
+/* フッター下の確保用ダミーが横を押さないように */
+footer::after{
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+/* たまに文字のはみ出しで発生するケースの保険 */
+.hashtags, #gtitle, .brand-copy, .card-title, .concept, footer{
+  overflow-wrap: anywhere;
+}

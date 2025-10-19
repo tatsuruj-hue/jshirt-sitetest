@@ -89,17 +89,16 @@
 </div>
 
 <script>
-  // 年表示
+  // 年
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // 要素取得
+  // ====== モーダル制御（既存のままでもOK） ======
   const modal = document.getElementById("contactModal");
   const btn   = document.getElementById("openContact");
   const span  = document.getElementById("closeModal");
   const form  = document.getElementById("contactForm");
   const thank = document.getElementById("thankyou");
 
-  // 開閉関数（ここを一元化）
   const openModal = () => {
     modal.style.display = "block";
     document.body.classList.add("modal-open");
@@ -111,54 +110,44 @@
     modal.setAttribute("aria-hidden","true");
   };
 
-  // 初期化：ページ読み込み直後は必ず閉じる
-  document.addEventListener("DOMContentLoaded", () => {
-    closeModal();
-  });
+  document.addEventListener("DOMContentLoaded", closeModal);
+  window.addEventListener("pageshow", closeModal);
 
-  // iOS/Safariの状態復元（bfcache）対策：復帰時も閉じる
-  window.addEventListener("pageshow", (e) => {
-    // e.persisted は bfcache からの復帰時に true
-    closeModal();
-  });
-
-  // ボタン/クリック
-  btn.onclick  = openModal;
+  btn.onclick = openModal;
   span.onclick = closeModal;
   window.onclick = (e) => { if (e.target === modal) closeModal(); };
 
-  // 送信処理（Formspree）
   form.addEventListener("submit", function(e){
     e.preventDefault();
     const data = new FormData(form);
     fetch(form.action, { method:"POST", body:data, headers:{'Accept':'application/json'} })
-    .then(res=>{
-      if(res.ok){
-        closeModal();
-        thank.classList.add("show");
-        setTimeout(()=>{thank.classList.remove("show");},2400);
-        form.reset();
-      }else{
-        alert("送信に失敗しました。もう一度お試しください。");
-      }
-    })
-    .catch(()=>alert("送信に失敗しました。ネットワークを確認してください。"));
+      .then(res=>{
+        if(res.ok){
+          closeModal();
+          thank.classList.add("show");
+          setTimeout(()=>{thank.classList.remove("show");},2400);
+          form.reset();
+        }else{
+          alert("送信に失敗しました。もう一度お試しください。");
+        }
+      })
+      .catch(()=>alert("送信に失敗しました。ネットワークを確認してください。"));
   });
+
+  // ====== ランダム暗転（8〜18秒ごとに0.8〜1.5秒） ======
+  (function blackoutLooper(){
+    const next = 8000 + Math.random() * 10000; // 8〜18秒
+    setTimeout(()=>{
+      const dur = 800 + Math.random() * 700;   // 0.8〜1.5秒
+      document.body.classList.add('blackout');
+      setTimeout(()=>{
+        document.body.classList.remove('blackout');
+        blackoutLooper(); // 次の暗転を予約
+      }, dur);
+    }, next);
+  })();
 </script>
 
-  // ランダムに暗転（0.5〜0.9秒）を発生させる
-(function blackoutLooper(){
-  const next = 8000 + Math.random() * 10000;   // 8〜18秒のランダム間隔
-  setTimeout(()=>{
-    const dur = 800 + Math.random() * 700;     // 0.8〜1.5秒の暗転
-    document.body.classList.add('blackout');
-    setTimeout(()=>{
-      document.body.classList.remove('blackout');
-      blackoutLooper(); // 次の暗転を予約
-    }, dur);
-  }, next);
-})();
-</script>
 <script>
 // ===== ランダム・バースト（不規則な弾け） =====
 (function surgeLoop(){

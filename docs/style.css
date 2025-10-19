@@ -416,3 +416,57 @@ body.blackout .logo-text{
     surgeBurstGlow 0.9s steps(1,end) 1,
     logoGlowBase 3.2s ease-in-out infinite !important;
 }
+/* ===== スマホ向け調整 ===== */
+@media (max-width: 768px) {
+
+  body {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  header {
+    padding: 20px 10px;
+  }
+
+  .logo-text {
+    font-size: clamp(40px, 12vw, 72px);
+    letter-spacing: .1em;
+  }
+
+  .brand-copy {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 0 10px;
+  }
+
+  .link-button {
+    display: block;
+    margin: 10px auto;
+    width: 80%;
+  }
+
+  section.gallery {
+    margin: 40px 0;
+  }
+
+  .scroll-container {
+    flex-wrap: nowrap;
+    gap: 14px;
+    padding: 0 10px;
+  }
+
+  .card {
+    width: 75vw;
+    height: 280px;
+  }
+
+  .card .concept {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  footer {
+    font-size: 0.8rem;
+    margin: 40px 0 60px;
+  }
+}

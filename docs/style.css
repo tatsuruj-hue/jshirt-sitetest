@@ -433,7 +433,7 @@ body.blackout .logo-text{
   .modal-content{
     width:94vw;
     max-width:none;
-    max-height:80vh;
+    max-height:90vh;
     overflow:auto;
     margin:0;
     padding:20px 16px;

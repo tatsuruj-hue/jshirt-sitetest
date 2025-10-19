@@ -556,7 +556,7 @@ body.modal-open { overflow: hidden; }
     align-items:center;
     justify-content:center;
     padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-    background: rgba(0,0,0,.92);
+    background: rgba(0,0,0,.98);
   }
 
   /* 端から端まで広げ、縦は画面の86%までにして中だけスクロール */

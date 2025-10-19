@@ -470,3 +470,82 @@ body.blackout .logo-text{
     margin: 40px 0 60px;
   }
 }
+/* ===== スマホ用：フォーム見やすく ===== */
+@media (max-width: 768px){
+  .modal{ background:rgba(0,0,0,.92); }
+
+  .modal-content{
+    width:92vw;
+    max-width:none;
+    margin:12vh auto;
+    padding:20px 16px;
+    border-radius:12px;
+    box-shadow:0 8px 40px rgba(0,0,0,.6);
+  }
+
+  .modal-content h2{
+    font-size:1.1rem;
+    letter-spacing:.08em;
+    margin:0 0 10px;
+  }
+
+  .modal input,
+  .modal textarea{
+    font-size:16px;
+    line-height:1.4;
+    padding:13px 14px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.07);
+    color:#fff;
+    outline:none;
+    width:100%;
+  }
+  .modal input::placeholder,
+  .modal textarea::placeholder{ color:rgba(255,255,255,.5); }
+
+  .modal input:focus,
+  .modal textarea:focus{
+    border-color: rgba(0,255,255,.6);
+    box-shadow:0 0 0 3px rgba(0,255,255,.15);
+    background:rgba(255,255,255,.10);
+  }
+
+  .modal textarea{
+    min-height:140px;
+    resize:vertical;
+  }
+
+  .modal button{
+    display:block;
+    width:100%;
+    padding:14px 16px;
+    font-size:16px;
+    border-radius:10px;
+    margin-top:14px;
+  }
+
+  .close{
+    top:8px; right:10px;
+    width:40px; height:40px;
+    line-height:40px;
+    text-align:center;
+    border-radius:8px;
+    background:rgba(255,255,255,.08);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .close:active{ background:rgba(255,255,255,.16); }
+
+  .modal-content{
+    padding-left:calc(16px + env(safe-area-inset-left));
+    padding-right:calc(16px + env(safe-area-inset-right));
+  }
+}
+
+.modal input:focus-visible,
+.modal textarea:focus-visible,
+.modal button:focus-visible{
+  outline:2px solid rgba(0,255,255,.7);
+  outline-offset:2px;
+  border-radius:10px;
+}

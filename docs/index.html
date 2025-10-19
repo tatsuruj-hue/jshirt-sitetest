@@ -174,6 +174,13 @@
   }, {threshold: .35});
   io.observe(el);
 })();
+  // ===== スマホ対応：タップでテーマ表示 =====
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('active');
+  });
+});
+
 </script>
 
 

@@ -970,3 +970,46 @@ body.blackout .logo-text::after{
     max-width: 120vw !important;
   }
 }
+/* ===== スマホでロゴの紫発光を強化 ===== */
+@media (max-width: 768px){
+  .logo-text{
+    /* iOSでレイヤーを独立させて発光を乗せやすくする */
+    will-change: filter, opacity;
+    transform: translateZ(0);
+  }
+
+  .logo-text::after{
+    /* オーラを一回り拡大＆濃度アップ */
+    inset: -14px -26px;            /* ← 広げる（元: -8px -18px） */
+    filter: blur(18px);            /* ← ぼかし強め（元: 14〜16px） */
+    opacity: .78;                  /* ← 濃度アップ（元: .6〜.72） */
+    background:
+      radial-gradient(ellipse at 50% 50%,
+        rgba(255, 0, 200, .50) 0%,  /* ← マゼンタ強め */
+        rgba(255, 0, 200, .24) 38%,
+        rgba(255, 0, 200, .10) 68%,
+        transparent 78%
+      ),
+      radial-gradient(ellipse at 50% 50%,
+        rgba(0, 200, 255, .36) 0%,  /* ← シアンも少し上げる */
+        rgba(0, 200, 255, .18) 42%,
+        rgba(0, 200, 255, .08) 72%,
+        transparent 82%
+      );
+    mix-blend-mode: screen;
+  }
+
+  /* 呼吸アニメも強めに（任意） */
+  @keyframes logoAura{
+    0%,100%{ opacity:.66; filter: blur(17px); }
+    50%    { opacity:.86; filter: blur(20px); }
+  }
+}
+
+/* 暗転時はちゃんと抑える（モバイルでも） */
+@media (max-width: 768px){
+  body.blackout .logo-text::after{
+    opacity:.10 !important;
+    filter:none !important;
+  }
+}

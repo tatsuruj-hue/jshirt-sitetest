@@ -87,6 +87,8 @@ body::after {
   filter: blur(32px);
   opacity: .95;
   animation: flickerOpacity var(--flickerDur) infinite steps(1,end);
+
+  max-width: 140vw;   /* ← この行を追加 */
 }
 
 @keyframes flickerOpacity {

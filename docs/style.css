@@ -334,6 +334,11 @@ body.blackout .logo-text{
   opacity: 1;
   transform: translateY(0);
 }
+/* スマホで長押しコピーを防止 */
+.card, .concept {
+  -webkit-user-select: none;
+  user-select: none;
+}
 /* ===== バースト用（不規則に弾ける） ===== */
 @keyframes surgeBurstOpacity {
   /* ランプの明滅：0/1を不規則に叩く */

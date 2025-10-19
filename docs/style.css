@@ -632,3 +632,42 @@ body.modal-open { overflow: hidden; }
   }
   .close:active{ background: rgba(255,255,255,.18); }
 }
+/* ===== 横スクロール完全オフ（スマホ） ===== */
+@media (max-width: 768px){
+
+  /* 念のための保険 */
+  html, body { overflow-x: hidden; }
+
+  /* 蛍光の台形レイヤーが横に溢れにくいように */
+  .alley-lamp{ overflow:hidden; }
+
+  /* ギャラリー：横スワイプをやめて縦並びに */
+  .scroll-container{
+    display:flex;
+    flex-wrap: wrap;          /* ← 縦積み */
+    overflow-x: hidden;       /* ← 横スクロール殺す */
+    gap: 16px;
+    padding: 0 12px;
+    justify-content: center;
+  }
+  .card{
+    width: 100%;
+    max-width: 520px;         /* 端末幅に合わせて中央寄せ */
+    height: auto;             /* 高さ自動 */
+    aspect-ratio: 4/5;        /* 画像比率が極端なら外してOK */
+    margin: 0 auto;
+  }
+  .card img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    display:block;            /* 画像のはみ出し防止 */
+  }
+
+  /* ギャラリータイトルの余白を少し詰める */
+  section.gallery{ margin: 32px 0 40px; }
+  #gtitle{ margin: 0 0 18px; }
+
+  /* ついでにボタンも折り返し前提で中央寄せ */
+  .link-button{ width: 86%; }
+}

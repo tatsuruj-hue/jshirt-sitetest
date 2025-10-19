@@ -1,0 +1,418 @@
+:root {
+  --fg:#eaeaea; --muted:#bdbdbd;
+  --accent:#00ffff; --accent2:#ff00ff;
+  --flickerDur:4.8s;
+}
+
+/* ベース背景 */
+html,body {height:100%;margin:0;}
+body {
+  color:var(--fg);
+  font-family:"Helvetica Neue","Noto Sans JP",system-ui,sans-serif;
+  text-align:center; overflow-x:hidden;
+  background:#000 url("wall_texture.webp") center/cover fixed no-repeat;
+}
+body::before {
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(0,0,0,.25) 0%, rgba(0,0,0,.6) 60%, rgba(0,0,0,.85) 100%),
+    rgba(0,0,0,.95);
+}
+body::after {
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 3px);
+  mix-blend-mode:overlay;pointer-events:none;
+}
+
+/* 蛍光灯 */
+.alley-lamp::before {
+  content:"";
+  position:absolute;
+  left:50%;
+  top:16px;
+  transform:translateX(-50%);
+  width:100%;
+  height:16px;
+  border-radius:10px;
+  background:
+    /* 中心の白い発光部分 */
+    linear-gradient(90deg,
+      #222 0%,
+      #ececec 12%,
+      #ffffff 50%,
+      #ececec 88%,
+      #222 100%
+    ),
+    /* 管の反射（金属っぽい筋） */
+    linear-gradient(0deg,
+      rgba(255,255,255,.6) 0%,
+      rgba(255,255,255,.15) 40%,
+      rgba(0,0,0,.15) 60%,
+      rgba(255,255,255,.25) 100%
+    );
+  background-blend-mode:screen;
+  box-shadow:
+    0 0 4px rgba(255,255,255,.6),
+    0 0 18px rgba(255,255,255,.4),
+    0 0 38px rgba(255,255,240,.3);
+  filter:blur(1.5px) brightness(.95);
+  opacity:.9;
+  mix-blend-mode:screen;
+  animation:flickerOpacity var(--flickerDur) infinite steps(1,end);
+}
+
+.alley-lamp::after {
+  content:"";
+  position:absolute;
+  left:50%;
+  top:24px;
+  transform:translateX(-50%);
+  width:180%;
+  height:90vh;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(255,0,200,.35) 0%,
+      rgba(180,0,255,.2) 40%,
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(0,200,255,.35) 0%,
+      rgba(0,140,255,.2) 40%,
+      transparent 75%
+    );
+  clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+  mix-blend-mode: screen;
+  filter: blur(32px);
+  opacity: .95;
+  animation: flickerOpacity var(--flickerDur) infinite steps(1,end);
+}
+
+@keyframes flickerOpacity {
+  0%,7%{opacity:.03}
+  8%,12%{opacity:.65}
+  13%,16%{opacity:.18}
+  17%,24%{opacity:.55}
+  25%,28%{opacity:.12}
+  29%,100%{opacity:.45}
+}
+
+/* ロゴ */
+header {padding:16px 16px 10px;position:relative;}
+.logo-text {
+  display:inline-block;
+  margin-top:68px; /* ← 位置：少し下げる（60〜80pxで微調整） */
+  font-family:"Bebas Neue","Share Tech Mono",Impact,sans-serif;
+  font-weight:800;
+  letter-spacing:.14em;
+  font-size:clamp(46px,8.5vw,96px);
+  line-height:1;
+  color:#f5f5f5;
+  filter:contrast(1.05) brightness(1.03)
+          drop-shadow(0 -6px 18px rgba(255,255,240,.25)) /* ← 上からの光 */
+          drop-shadow(0 0 10px rgba(0,255,255,.25));     /* ← 蛍光の反射 */
+  text-shadow:
+    0 0 2px rgba(255,255,255,.6),
+    0 0 10px rgba(255,255,255,.5),
+    0 0 24px rgba(0,255,255,.25);
+  animation:flickerGlow var(--flickerDur) steps(1,end) infinite,
+             logoGlowBase 3.2s ease-in-out infinite;
+}
+.logo-text, .link-button {
+  position:relative;
+  z-index:2;
+}
+
+@keyframes flickerGlow {
+  0%,7% {text-shadow:0 0 3px rgba(0,255,255,.3);}
+  8%,12% {text-shadow:0 0 8px rgba(0,255,255,.9);}
+  13%,16% {text-shadow:0 0 5px rgba(0,255,255,.5);}
+  17%,24% {text-shadow:0 0 8px rgba(0,255,255,.85);}
+  25%,28% {text-shadow:0 0 4px rgba(0,255,255,.4);}
+  29%,100% {text-shadow:0 0 6px rgba(0,255,255,.7);}
+}
+@keyframes logoGlowBase {0%,100%{transform:none}50%{transform:translateY(-1px)}}
+
+/* コピー */
+.brand-copy {margin-top:10px;font-size:1rem;line-height:1.9;}
+.brand-copy .jp {opacity:0;animation:fadeIn 1.4s ease forwards .4s;color:#e8e8e8;}
+.brand-copy .en {opacity:0;animation:fadeIn 1.4s ease forwards 2.1s;color:var(--accent);}
+@keyframes fadeIn {to{opacity:1}}
+
+/* ボタン */
+.link-button {
+  display:inline-block;margin:18px 6px 6px;padding:12px 28px;
+  color:#000;background:var(--accent);border-radius:8px;font-weight:800;text-decoration:none;
+}
+.link-button:hover {background:var(--accent2);color:#fff;}
+.hashtags {margin-top:10px;color:var(--muted);font-size:.92rem;}
+
+/* ギャラリー */
+section.gallery {margin:66px 0 56px;}
+.scroll-container {
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:18px 24px;
+  scroll-snap-type:x mandatory;
+  justify-content:center;        /* 中央寄せ */
+  scroll-padding-left:24px;      /* スクロール開始位置の余白 */
+}
+.card {flex:0 0 auto;width:260px;height:340px;position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;}
+.card img {width:100%;height:100%;object-fit:cover;}
+.card.empty {display:flex;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,.2);}
+.card.empty .soon {color:#fff;opacity:.5;}
+
+/* ===== ギャラリータイトル（穏やかネオン） ===== */
+#gtitle {
+  font-family:"Orbitron","Share Tech Mono",system-ui,sans-serif;
+  font-size:1.4rem;
+  letter-spacing:0.25em;
+  color:#b8ffff;
+  text-align:center;
+  text-shadow:
+    0 0 6px rgba(0,255,255,.45),
+    0 0 14px rgba(0,255,255,.3),
+    0 0 26px rgba(0,255,255,.15);
+  margin-bottom:26px;
+}
+
+#gtitle span {
+  display:inline-block;
+  animation:neonPulse 7s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    opacity:1;
+    text-shadow:
+      0 0 6px rgba(0,255,255,.4),
+      0 0 14px rgba(0,255,255,.25),
+      0 0 24px rgba(0,255,255,.1);
+  }
+  50% {
+    opacity:.85;
+    text-shadow:
+      0 0 8px rgba(0,255,255,.6),
+      0 0 18px rgba(0,255,255,.4),
+      0 0 32px rgba(0,255,255,.25);
+  }
+}
+
+
+/* ホバーで微妙に光が走る */
+#gtitle:hover {
+  color:#fff;
+  text-shadow:
+    0 0 10px rgba(0,255,255,.8),
+    0 0 22px rgba(0,255,255,.5),
+    0 0 44px rgba(0,255,255,.25);
+}
+
+
+/* モーダル */
+.modal {display:none;position:fixed;z-index:100;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(4px);}
+.modal-content {background:rgba(20,20,20,.8);border-radius:12px;max-width:600px;margin:8% auto;padding:30px;color:#fff;}
+.close {position:absolute;right:20px;top:10px;font-size:32px;color:#fff;cursor:pointer;}
+.modal input,.modal textarea {width:100%;margin:8px 0;padding:12px 14px;background:rgba(255,255,255,0.08);color:#fff;}
+.modal button {margin-top:16px;padding:12px 24px;background:var(--accent);border:none;border-radius:8px;color:#000;font-weight:700;cursor:pointer;}
+.modal button:hover {background:var(--accent2);color:#fff;}
+
+/* Thank you */
+.thankyou {position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.92);font-size:2rem;color:var(--accent);opacity:0;visibility:hidden;}
+.thankyou.show {opacity:1;visibility:visible;}
+footer {margin:64px 0 26px;color:#9a9a9a;font-size:.95rem;}
+
+/* ===== クレジット（控えめに出現） ===== */
+.credit{
+  position:relative;
+  max-width:920px;
+  margin:64px auto 42px;
+  padding-top:22px;
+  text-align:center;
+  color:#9bb; /* くすんだシアン */
+  letter-spacing:.08em;
+  line-height:1.65;
+  opacity:.85;
+}
+.credit::before{
+  /* 細い罫線（薄く滲む） */
+  content:"";
+  position:absolute; left:50%; top:0; transform:translateX(-50%);
+  width:220px; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(160,255,255,.25),transparent);
+  filter:blur(.2px);
+}
+.credit .label{
+  font-size:.78rem;
+  color:#8abcbc;
+  text-transform:uppercase;
+}
+.credit .by{
+  font-size:.9rem;
+  color:#cfe;
+}
+.credit strong{
+  color:#def; font-weight:700;
+  text-shadow:0 0 6px rgba(0,255,255,.18);
+}
+
+/* 出現アニメ（スクロールで） */
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(2px);
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+
+/* 触れた時だけ微光（PCのみ） */
+@media (hover:hover){
+  .credit:hover strong{ text-shadow:0 0 10px rgba(0,255,255,.28); }
+}
+
+/* モーション控えめユーザー配慮 */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .reveal.show{ transition:none; transform:none; filter:none; }
+}
+
+
+/* ========= ランダム暗転（blackout状態） ========= */
+body.blackout::before {
+  backdrop-filter:brightness(.3) blur(1px);
+  background:rgba(0,0,0,.6);
+}
+
+
+body.blackout .alley-lamp::before,
+body.blackout .alley-lamp::after{
+  opacity:0.02 !important;
+  transition:opacity .1s ease;
+}
+body.blackout .logo-text{
+  opacity:.08;
+  text-shadow:none;
+  filter:none;
+  transition:opacity .1s ease;
+}
+.card {
+  position:relative;
+  overflow:hidden;
+}
+
+.card .concept {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.75);
+  color:#f2f2f2;
+  font-size:.9rem;
+  line-height:1.6;
+  opacity:0;
+  transform:translateY(10%);
+  transition:opacity .4s ease, transform .4s ease;
+  padding:20px;
+  text-shadow:0 0 6px rgba(0,255,255,.3);
+}
+
+.card:hover .concept {
+  opacity:1;
+  transform:translateY(0);
+}
+/* ===== バースト用（不規則に弾ける） ===== */
+@keyframes surgeBurstOpacity {
+  /* ランプの明滅：0/1を不規則に叩く */
+  0%   { opacity:.15 }
+  6%   { opacity:1 }
+  12%  { opacity:.25 }
+  18%  { opacity:1 }
+  24%  { opacity:.2 }
+  30%  { opacity:1 }
+  36%  { opacity:.1 }
+  45%  { opacity:1 }
+  55%  { opacity:.3 }
+  65%  { opacity:1 }
+  78%  { opacity:.18 }
+  88%  { opacity:1 }
+  100% { opacity:.6 }
+}
+
+@keyframes surgeBurstGlow {
+  /* ロゴの発光：一瞬ビカ→すぐ減衰→またビカ… */
+  0%{
+    text-shadow:
+      0 0 6px rgba(0,255,255,.5),
+      0 0 14px rgba(0,255,255,.35),
+      0 0 26px rgba(0,255,255,.2);
+  }
+  6%{
+    text-shadow:
+      0 0 10px rgba(0,255,255,1),
+      0 0 24px rgba(0,255,255,.8),
+      0 0 40px rgba(0,255,255,.45);
+  }
+  12%{
+    text-shadow:
+      0 0 5px rgba(0,255,255,.35),
+      0 0 12px rgba(0,255,255,.25),
+      0 0 20px rgba(0,255,255,.15);
+  }
+  18%{
+    text-shadow:
+      0 0 9px rgba(0,255,255,.9),
+      0 0 22px rgba(0,255,255,.6),
+      0 0 36px rgba(0,255,255,.35);
+  }
+  30%{
+    text-shadow:
+      0 0 4px rgba(0,255,255,.3),
+      0 0 10px rgba(0,255,255,.2),
+      0 0 18px rgba(0,255,255,.12);
+  }
+  45%{
+    text-shadow:
+      0 0 9px rgba(0,255,255,.95),
+      0 0 22px rgba(0,255,255,.7),
+      0 0 40px rgba(0,255,255,.4);
+  }
+  65%{
+    text-shadow:
+      0 0 5px rgba(0,255,255,.35),
+      0 0 12px rgba(0,255,255,.25),
+      0 0 20px rgba(0,255,255,.14);
+  }
+  88%{
+    text-shadow:
+      0 0 8px rgba(0,255,255,.85),
+      0 0 20px rgba(0,255,255,.55),
+      0 0 34px rgba(0,255,255,.3);
+  }
+  100%{
+    text-shadow:
+      0 0 6px rgba(0,255,255,.55),
+      0 0 16px rgba(0,255,255,.35),
+      0 0 28px rgba(0,255,255,.2);
+  }
+}
+
+/* === バースト中だけ通常アニメを上書き（0.9秒だけ） === */
+.surge .alley-lamp::before,
+.surge .alley-lamp::after{
+  animation: surgeBurstOpacity 0.9s steps(1,end) 1 !important;
+}
+
+.surge .logo-text{
+  /* 呼吸は残したまま、明滅だけバースト波形に差し替え */
+  animation:
+    surgeBurstGlow 0.9s steps(1,end) 1,
+    logoGlowBase 3.2s ease-in-out infinite !important;
+}

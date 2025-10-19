@@ -330,6 +330,10 @@ body.blackout .logo-text{
   opacity:1;
   transform:translateY(0);
 }
+.card.active .concept {
+  opacity: 1;
+  transform: translateY(0);
+}
 /* ===== バースト用（不規則に弾ける） ===== */
 @keyframes surgeBurstOpacity {
   /* ランプの明滅：0/1を不規則に叩く */

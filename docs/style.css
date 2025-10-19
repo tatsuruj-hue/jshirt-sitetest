@@ -673,3 +673,54 @@ body.modal-open { overflow: hidden; }
   /* ついでにボタンも折り返し前提で中央寄せ */
   .link-button{ width: 86%; }
 }
+/* ===== スマホの最終微調整 ===== */
+@media (max-width: 768px){
+
+  /* ギャラリーのカードを少し小さめに */
+  .card{
+    width: 88vw;          /* 画面幅の約9割 */
+    max-width: 380px;     /* 大きい端末でもこれ以上広がらない */
+    height: auto;
+    aspect-ratio: 3 / 4;  /* 縦長比率 */
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+  .card img{
+    border-radius: 12px;
+  }
+
+  .card .concept{
+    font-size: 0.8rem;
+    padding: 12px;
+    line-height: 1.5;
+  }
+
+  /* 見出しの余白を調整 */
+  #gtitle{
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+
+  /* お問い合わせフォームをややコンパクトに */
+  .modal-content{
+    max-height: 75vh;      /* ← 縦方向の制限を少しきつめに */
+    padding: 18px 14px;
+  }
+
+  .modal textarea{
+    min-height: 120px;     /* ← 入力欄の縦を少し低く */
+  }
+
+  .modal button{
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  /* 閉じるボタンの押しやすさ維持 */
+  .close{
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+  }
+}

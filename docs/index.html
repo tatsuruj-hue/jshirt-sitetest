@@ -88,33 +88,64 @@
   <p class="by">Concept &amp; Design — <strong>TJcorporation / JSHIRT</strong></p>
 </div>
 
+<script>
+  // 年表示
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const modal = document.getElementById("contactModal");
-    const btn = document.getElementById("openContact");
-    const span = document.getElementById("closeModal");
-    btn.onclick = () => { modal.style.display = "block"; document.body.classList.add("modal-open"); };
-    span.onclick = () => { modal.style.display = "none"; document.body.classList.remove("modal-open"); };
-    window.onclick = (e) => { if(e.target == modal){ modal.style.display = "none"; document.body.classList.remove("modal-open"); } };
-     const form = document.getElementById("contactForm");
-    const thank = document.getElementById("thankyou");
-    form.addEventListener("submit", function(e){
-      e.preventDefault();
-      const data = new FormData(form);
-      fetch(form.action, { method:"POST", body:data, headers:{'Accept':'application/json'} })
-      .then(res=>{
-        if(res.ok){
-          modal.style.display="none";
-          thank.classList.add("show");
-          setTimeout(()=>{thank.classList.remove("show");},2400);
-          form.reset();
-        }else{
-          alert("送信に失敗しました。もう一度お試しください。");
-        }
-      })
-      .catch(()=>alert("送信に失敗しました。ネットワークを確認してください。"));
-    });
+  // 要素取得
+  const modal = document.getElementById("contactModal");
+  const btn   = document.getElementById("openContact");
+  const span  = document.getElementById("closeModal");
+  const form  = document.getElementById("contactForm");
+  const thank = document.getElementById("thankyou");
+
+  // 開閉関数（ここを一元化）
+  const openModal = () => {
+    modal.style.display = "block";
+    document.body.classList.add("modal-open");
+    modal.setAttribute("aria-hidden","false");
+  };
+  const closeModal = () => {
+    modal.style.display = "none";
+    document.body.classList.remove("modal-open");
+    modal.setAttribute("aria-hidden","true");
+  };
+
+  // 初期化：ページ読み込み直後は必ず閉じる
+  document.addEventListener("DOMContentLoaded", () => {
+    closeModal();
+  });
+
+  // iOS/Safariの状態復元（bfcache）対策：復帰時も閉じる
+  window.addEventListener("pageshow", (e) => {
+    // e.persisted は bfcache からの復帰時に true
+    closeModal();
+  });
+
+  // ボタン/クリック
+  btn.onclick  = openModal;
+  span.onclick = closeModal;
+  window.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+  // 送信処理（Formspree）
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    const data = new FormData(form);
+    fetch(form.action, { method:"POST", body:data, headers:{'Accept':'application/json'} })
+    .then(res=>{
+      if(res.ok){
+        closeModal();
+        thank.classList.add("show");
+        setTimeout(()=>{thank.classList.remove("show");},2400);
+        form.reset();
+      }else{
+        alert("送信に失敗しました。もう一度お試しください。");
+      }
+    })
+    .catch(()=>alert("送信に失敗しました。ネットワークを確認してください。"));
+  });
+</script>
+
   // ランダムに暗転（0.5〜0.9秒）を発生させる
 (function blackoutLooper(){
   const next = 8000 + Math.random() * 10000;   // 8〜18秒のランダム間隔
